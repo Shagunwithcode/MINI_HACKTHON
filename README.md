@@ -1,114 +1,137 @@
 # MINI_HACKTHON
 
-# Student Result and Grade Analyzer
 
-## Project Information
-- Project: Student Result and Grade Analyzer
-- Course: B.Tech CSE
-- Subject: C Programming
-- College: UPES
-- Team Number: 12
-- Batch: 51
-- Team Members:
-* SHAGUN SAINI
-* AASTHA SINGH
+Student Result & Grade Analyzer
+C PROGRAMMING · MINI HACKATHON · PROBLEM 03
+RESULT PROCESSING · GRADE ENGINE · CLASS INSIGHTS
+Five subjects. One clear performance report.
 
-  
-## 1. Problem Statement
-Develop a C program to manage and analyze academic
-results for 10 students across five subjects.
 
-The system calculates total marks, percentage,
-grades, pass/fail status, class topper and class average.
 
-## 2. Objectives
-- Automate student result calculation.
-- Reduce manual calculation errors.
-- Assign grades automatically.
-- Identify the class topper.
-- Calculate class performance.
+01 / PROJECT IDENTITY
+* Project
+      Student Result & Grade Analyzer
+*  Language
+     C
+*  Team number
+     2
+* Batch
+   51
+* Members
+SHAGUN SAINI
+AASTHA SINGH
+* Challenge
+Mini Hackathon — Problem 3
 
-## 3. Features
-- Input details of 10 students.
-- Store marks in five subjects.
-- Calculate total and percentage.
-- Generate grades.
-- Check pass/fail status.
-- Search students using roll number.
-- Display complete result report.
-- Calculate class average.
-- Identify class topper.
-- Validate invalid inputs.
 
-## 4. Technologies Used
-- Programming Language: C
-- Compiler: GCC
-- Editor: Visual Studio Code
-- Version Control: Git and GitHub
+02 / THE CHALLENGE
 
-## 5. C Concepts Used
-- Variables and data types
-- Structures
-- Arrays
-- Functions
-- For and do-while loops
-- If-else statements
-- Switch statements
-- String handling
-- Input validation
+Manually processing results for many students takes time and risks calculation errors. GradeCraft is a proposed menu-driven C program that accepts five subject marks per student and calculates totals, percentages, grades, pass/fail decisions, and class-level insights.
+Mission: Turn raw marks into readable, consistent student results.
 
-## 6. Grading System
-A+: 90-100%
-A: 80-89.99%
-B: 70-79.99%
-C: 60-69.99%
-D: 50-59.99%
-E: 35-49.99%
-F: Below 35% or failure in any subject
 
-Minimum passing marks: 35 in each subject.
+03 / FEATURE MAP
+Module
+What it does
+🧑‍🎓 Student registration
+Enter a name and five subject marks
+🛡️ Input validation
+Accept only marks from 0 to 100; reject invalid menu choices
+🧮 Result engine
+Calculate total out of 500 and percentage
+🏅 Grade assignment
+Assign A+, A, B, C, D, E, or F
+📊 Class dashboard
+Show class average and highest-percentage student
+🔁 Menu navigation
+Add student, view results, view summary, exit
 
-## 7. Algorithm
-1. Start the program.
-2. Input student details.
-3. Input marks in five subjects.
-4. Calculate total and percentage.
-5. Check pass/fail status.
-6. Assign grades.
-7. Display the menu.
-8. Display results, search students,
-   find topper or calculate average.
-9. Exit the program.
 
-## 8. Compilation and Execution
+04 / GRADING POLICY
+Project assumptions — confirm with faculty. Each subject is out of 100. A student must score at least 40 in every subject to pass.
+Percentage
+Grade
+Condition
+90–100
+A+
+All subjects passed
+80–<90
+A
+All subjects passed
+70–<80
+B
+All subjects passed
+60–<70
+C
+All subjects passed
+50–<60
+D
+All subjects passed
+40–<50
+E
+All subjects passed
+Any percentage
+F
+At least one subject below 40
+Core formulas
+Total Marks  = Subject 1 + Subject 2 + Subject 3 + Subject 4 + Subject 5
+Percentage   = (Total Marks / 500.0) * 100
+Class Average = Sum of Student Percentages / Number of Students
+Topper       = Student with the Highest Percentage
 
-Compile:
-gcc student_result.c -o student_result
 
-Run:
-./student_result
 
-## 9. Sample Output
-Class topper: Priya
-Total Marks: 475/500
-Percentage: 95%
-Grade: A+
-Result: PASS
+05 / HOW IT WORKS
+             +-----------------------+
+             |    START GRADECRAFT   |
+             +-----------+-----------+
+                         |
+                  +------v------+
+                  |  MAIN MENU  |
+                  +------+------+
+                         |
+           +-------------+-------------+
+           |             |             |
+       ADD STUDENT    VIEW RESULTS  CLASS SUMMARY
+           |             |             |
+     Validate 5 marks  Show totals   Topper + average
+           |
+     Total + percentage
+           |
+     Pass/fail + grade
+           |
+     Save student record
+           |
+           +----------> RETURN TO MENU
+                              |
+                           EXIT -> END
 
-Class Average: 70.02%
 
-## 10. Conclusion
-The Student Result and Grade Analyzer provides
-a simple and efficient method of processing
-student academic results using C programming.
+Algorithm: Initialize an empty student collection → display menu → process the chosen operation → validate marks → calculate and store results → display individual or class reports → repeat until Exit. For an empty class, display an informative message. For tied topper percentages, the proposed rule is to display the first entered student.
 
-It demonstrates practical applications of
-structures, arrays, functions and conditional
-statements.
 
-## 11. Future Scope
-- Store student records in files.
-- Add a graphical user interface.
-- Generate printable report cards.
-- Support more students and subjects.
--
+06 / C CONCEPTS APPLIED
+struct for student records · arrays for five marks and multiple students · strings for names · functions for modular logic · loops for menu and input · conditionals for validation, pass/fail, and grading · arithmetic operators for calculations.
+
+
+07 / BUILD & RUN
+Save the final C source file as student_result_analyzer.c.
+gcc student_result_analyzer.c -o student_result_analyzer
+./student_result_analyzer
+
+On Windows Command Prompt, run student_result_analyzer.exe after compilation.
+This README describes planned behavior, not a verified implementation. Match the final code to these rules and record actual outputs after testing.
+
+
+
+08 / QUALITY ASSURANCE
+See SAMPLE_TEST_CASES.md for 12 scenarios, including normal results, grade boundaries, failure despite a high overall percentage, invalid inputs, class summary, and topper ties.
+
+
+09 / SUBMISSION PACKAGE
+
+* student_result_analyzer.c — working C source code
+
+* README.md — project documentation
+
+* SAMPLE_TEST_CASES.md — expected tests and actual-result fields
