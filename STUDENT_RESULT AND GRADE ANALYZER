@@ -1,0 +1,323 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define STUDENTS 10
+#define SUBJECTS 5
+#define PASS_MARK 35
+
+const char *subjectNames[SUBJECTS] = {
+    "C Programming",
+    "Mathematics",
+    "Physics",
+    "English",
+    "Chemistry"
+};
+
+struct Student {
+    int rollNo;
+    char name[50];
+    int marks[SUBJECTS];
+    int total;
+    float percentage;
+    char grade[3];
+    int pass;
+};
+
+struct Student students[STUDENTS];
+
+// Read a valid integer within a given range
+int readInt(const char *message, int min, int max) {
+    char input[100];
+    char *end;
+    long value;
+
+    while (1) {
+        printf("%s", message);
+
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            printf("Input error. Try again.\n");
+            continue;
+        }
+
+        value = strtol(input, &end, 10);
+
+        while (isspace((unsigned char)*end)) {
+            end++;
+        }
+
+        if (end == input || *end != '\0' ||
+            value < min || value > max) {
+            printf("Invalid input! Enter a value between %d and %d.\n",
+                   min, max);
+            continue;
+        }
+
+        return (int)value;
+    }
+}
+
+// Read a non-empty student name
+void readName(char name[], int size) {
+    while (1) {
+        printf("Enter student name: ");
+
+        if (fgets(name, size, stdin) == NULL) {
+            printf("Input error. Try again.\n");
+            continue;
+        }
+
+        name[strcspn(name, "\n")] = '\0';
+
+        if (strlen(name) == 0 ||
+            strspn(name, " \t") == strlen(name)) {
+            printf("Name cannot be empty!\n");
+            continue;
+        }
+
+        return;
+    }
+}
+
+// Check whether roll number already exists
+int isDuplicateRoll(int roll, int current) {
+    for (int i = 0; i < current; i++) {
+        if (students[i].rollNo == roll) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+// Input student details
+void inputStudents() {
+    printf("\n===== ENTER STUDENT DETAILS =====\n");
+
+    for (int i = 0; i < STUDENTS; i++) {
+        printf("\nStudent %d\n", i + 1);
+
+        while (1) {
+            students[i].rollNo =
+                readInt("Enter roll number: ", 1, 999999);
+
+            if (!isDuplicateRoll(students[i].rollNo, i)) {
+                break;
+            }
+
+            printf("Roll number already exists! Try another.\n");
+        }
+
+        readName(students[i].name, sizeof(students[i].name));
+
+        printf("\nEnter marks (0-100):\n");
+
+        for (int j = 0; j < SUBJECTS; j++) {
+            char message[100];
+
+            snprintf(message, sizeof(message),
+                     "%s: ", subjectNames[j]);
+
+            students[i].marks[j] =
+                readInt(message, 0, 100);
+        }
+    }
+}
+
+// Calculate total, percentage, pass/fail and grade
+void calculateResult(struct Student *s) {
+    s->total = 0;
+    s->pass = 1;
+
+    for (int i = 0; i < SUBJECTS; i++) {
+        s->total += s->marks[i];
+
+        if (s->marks[i] < PASS_MARK) {
+            s->pass = 0;
+        }
+    }
+
+    s->percentage = (float)s->total / SUBJECTS;
+
+    if (!s->pass) {
+        strcpy(s->grade, "F");
+    }
+    else if (s->percentage >= 90) {
+        strcpy(s->grade, "A+");
+    }
+    else if (s->percentage >= 80) {
+        strcpy(s->grade, "A");
+    }
+    else if (s->percentage >= 70) {
+        strcpy(s->grade, "B");
+    }
+    else if (s->percentage >= 60) {
+        strcpy(s->grade, "C");
+    }
+    else if (s->percentage >= 50) {
+        strcpy(s->grade, "D");
+    }
+    else {
+        strcpy(s->grade, "E");
+    }
+}
+
+// Calculate results for all students
+void calculateAllResults() {
+    for (int i = 0; i < STUDENTS; i++) {
+        calculateResult(&students[i]);
+    }
+}
+
+// Display individual student result
+void displayStudent(struct Student s) {
+    printf("\nStudent Name : %s\n", s.name);
+    printf("Roll Number  : %d\n", s.rollNo);
+
+    printf("\nSubject-wise Marks:\n");
+
+    for (int i = 0; i < SUBJECTS; i++) {
+        printf("%-18s : %d\n",
+               subjectNames[i], s.marks[i]);
+    }
+
+    printf("\nTotal        : %d / 500\n", s.total);
+    printf("Percentage   : %.2f%%\n", s.percentage);
+    printf("Grade        : %s\n", s.grade);
+    printf("Result       : %s\n",
+           s.pass ? "PASS" : "FAIL");
+}
+
+// Display complete class report
+void displayAllResults() {
+    printf("\n========== CLASS RESULT REPORT ==========\n");
+
+    printf("%-6s %-18s %-8s %-12s %-8s %-8s\n",
+           "Roll", "Name", "Total",
+           "Percentage", "Grade", "Result");
+
+    printf("-------------------------------------------------------------\n");
+
+    for (int i = 0; i < STUDENTS; i++) {
+        printf("%-6d %-18.18s %-8d %-11.2f%% %-8s %-8s\n",
+               students[i].rollNo,
+               students[i].name,
+               students[i].total,
+               students[i].percentage,
+               students[i].grade,
+               students[i].pass ? "PASS" : "FAIL");
+    }
+}
+
+// Find and display class topper
+void findTopper() {
+    int highest = students[0].total;
+
+    for (int i = 1; i < STUDENTS; i++) {
+        if (students[i].total > highest) {
+            highest = students[i].total;
+        }
+    }
+
+    printf("\n========== CLASS TOPPER ==========\n");
+
+    for (int i = 0; i < STUDENTS; i++) {
+        if (students[i].total == highest) {
+            displayStudent(students[i]);
+        }
+    }
+}
+
+// Calculate class average
+void calculateClassAverage() {
+    int totalMarks = 0;
+    float average;
+
+    for (int i = 0; i < STUDENTS; i++) {
+        totalMarks += students[i].total;
+    }
+
+    average = (float)totalMarks /
+              (STUDENTS * SUBJECTS);
+
+    printf("\n========== CLASS AVERAGE ==========\n");
+    printf("Average Marks: %.2f / 100\n", average);
+    printf("Average Percentage: %.2f%%\n", average);
+}
+
+// Display menu
+void displayMenu() {
+    printf("\n\n===== STUDENT RESULT ANALYZER =====\n");
+    printf("1. Display All Student Results\n");
+    printf("2. Search Student by Roll Number\n");
+    printf("3. Find Class Topper\n");
+    printf("4. Calculate Class Average\n");
+    printf("5. Exit\n");
+}
+
+// Search student
+void searchStudent() {
+    int roll, found = 0;
+
+    roll = readInt("\nEnter roll number to search: ",
+                   1, 999999);
+
+    for (int i = 0; i < STUDENTS; i++) {
+        if (students[i].rollNo == roll) {
+            displayStudent(students[i]);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("\nStudent not found!\n");
+    }
+}
+
+// Main function
+int main() {
+    int choice;
+
+    printf("====================================\n");
+    printf("   STUDENT RESULT AND GRADE ANALYZER\n");
+    printf("====================================\n");
+
+    inputStudents();
+    calculateAllResults();
+
+    do {
+        displayMenu();
+
+        choice = readInt("Enter your choice: ", 1, 5);
+
+        switch (choice) {
+            case 1:
+                displayAllResults();
+                break;
+
+            case 2:
+                searchStudent();
+                break;
+
+            case 3:
+                findTopper();
+                break;
+
+            case 4:
+                calculateClassAverage();
+                break;
+
+            case 5:
+                printf("\nThank you for using the system!\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
