@@ -180,6 +180,8 @@ Result: PASS
 
 
 09 Batch_TeamNo 12
+
+
 │
 ├── student_result.c
 ├── README.md
