@@ -82,6 +82,9 @@ Topper       = Student with the Highest Percentage
 
 
 05 / HOW IT WORKS
+            
+             
+             
              +-----------------------+
              |    START GRADECRAFT   |
              +-----------+-----------+
@@ -104,7 +107,11 @@ Topper       = Student with the Highest Percentage
            |
            +----------> RETURN TO MENU
                               |
-                           EXIT -> END
+                    
+                           
+                        EXIT -> END
+
+
 
 
 Algorithm: Initialize an empty student collection → display menu → process the chosen operation → validate marks → calculate and store results → display individual or class reports → repeat until Exit. For an empty class, display an informative message. For tied topper percentages, the proposed rule is to display the first entered student.
